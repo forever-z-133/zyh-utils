@@ -16,7 +16,7 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'module',
   },
-  parser: '@babel/eslint-parser',
+  // parser: '@babel/eslint-parser',
   rules: {
     semi: 2,
     quotes: [2, 'single'],

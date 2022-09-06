@@ -25,16 +25,28 @@ export const isNumberString = str => {
  * @returns number
  */
 export const addZero = (num, len = 2) => {
-  let result = isNaN(num) ? '' : (num + '');
+  if (isNaN(num)) return '';
+  let result = num + '';
   let numLen = result.length;
   while (numLen++ < len) result = '0' + result;
   return result;
 };
 
 /**
+ * 驼峰转连字符
+ * 比如 fontSize 返回 font-size
+ * @param {String} str 驼峰字符串
+ * @returns string
+ */
+export function hyphenate(str) {
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(/\B([A-Z])/g, '-$1').toLowerCase();
+}
+
+/**
  * 连字符转驼峰
  * 比如 font-size 返回 fontSize
- * @param {String} str 字符串
+ * @param {String} str 连字符字符串
  * @returns string
  */
 export const camelize = str => {
