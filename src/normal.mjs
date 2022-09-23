@@ -4,18 +4,16 @@
  * @param {Any} obj 任何数据
  * @returns string
  */
-export const typeOf = obj => {
-  const typeStr = Object.prototype.toString.call(obj).split(' ')[1];
-  return typeStr.slice(0, typeStr.length - 1).toLowerCase();
-};
+export const typeOf = obj => Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
 
 /**
  * 判断是否为数字字符串
  * @param {String} str 字符串
  * @returns boolean
  */
+const numberRegexp = /^-?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/;
 export const isNumberString = str => {
-  return parseFloat(str) == str;
+  return numberRegexp.test(str);
 };
 
 /**

@@ -14,7 +14,8 @@ describe('normal.mjs', () => {
     expect(typeOf(0)).toBe('number');
     expect(typeOf(NaN)).toBe('number');
     expect(typeOf('')).toBe('string');
-    expect(typeOf(true)).toBe('boolean');
+    expect(typeOf(undefined)).toBe('undefined');
+    expect(typeOf(null)).toBe('null');
     expect(typeOf([])).toBe('array');
     expect(typeOf({})).toBe('object');
     expect(typeOf(test)).toBe('function');
@@ -29,8 +30,14 @@ describe('normal.mjs', () => {
     expect(isNumberString('1x')).toBe(false);
     expect(isNumberString('x1')).toBe(false);
     expect(isNumberString('12')).toBe(true);
+    expect(isNumberString('.1')).toBe(true);
     expect(isNumberString('-12')).toBe(true);
+    expect(isNumberString('-.1')).toBe(true);
     expect(isNumberString('12.5')).toBe(true);
+    expect(isNumberString('2e2')).toBe(true);
+    expect(isNumberString('0.2e2')).toBe(true);
+    expect(isNumberString('.2e2')).toBe(true);
+    expect(isNumberString('-.2e2')).toBe(true);
     expect(isNumberString('2e2')).toBe(true);
     expect(isNumberString('2e-2')).toBe(true);
   });

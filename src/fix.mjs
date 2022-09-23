@@ -1,4 +1,22 @@
 /**
+ * 返回整数格式的数据，用于避免计算时的精度问题
+ * 借鉴 https://github.com/MikeMcl/big.js/blob/master/big.js#L138
+ * @param {*} num 数字
+ * @return object
+ */
+export const createNumberObject = num => {
+  let n = String(n);
+  const negative = n.charAt(0) == '-' ? (n = n.slice(1), -1) : 1;
+  const integer = n;
+
+  return {
+    n: integer, // 转换后的整数
+    decimal: 0, // 小数位数
+    negative, // 负数为 -1
+  };
+};
+
+/**
  * TODO
  * 数字计算
  * BUG:
@@ -13,21 +31,6 @@
  */
 export const calculate = (type, num1, num2) => {
   return NaN;
-};
-
-/**
- * TODO
- * 小数乘以 10 的 n 次方
- * BUG:
- *   1.1 * 100 // 110.00000000000001
- *   1.15 * 100 // 114.99999999999999
- * @param {Number} num 基数
- * @param {Number} exponent 次幂
- * @returns number
- */
-export const pow10 = (num, exponent = 0) => {
-  const pow = Math.pow(10, exponent);
-  return num * pow;
 };
 
 /**
