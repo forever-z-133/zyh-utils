@@ -92,4 +92,21 @@ describe('节流测试', () => {
     vi.runAllTimers();
     expect(callback).toBeCalledTimes(6);
   });
+
+  test('在中途时候，取消防抖', () => {
+    const callback = vi.fn(cb);
+    const func = throttle(callback, 100, { trailing: true });
+    let count = 0;
+    // 每隔 29ms 访问，但实际 100ms 触发，当 87ms 时取消，则不会有触发
+    const timer = setInterval(() => {
+      if (++count >= 3) {
+        clearInterval(timer);
+        func.cancel();
+      }
+      func();
+    }, 29);
+
+    vi.runAllTimers();
+    expect(callback).toBeCalledTimes(0);
+  });
 });

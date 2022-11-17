@@ -1,9 +1,11 @@
 
 export function throttle(func, wait, options) {
-  const { leading = false, trailing = false } = options || {};
   let startTime;
   let lastCallTimer;
-  return function loop(...args) {
+
+  function trigger(...args) {
+    const { leading = false, trailing = false } = options || {};
+
     if (!startTime) {
       startTime = Date.now();
       if (leading) {
@@ -21,9 +23,18 @@ export function throttle(func, wait, options) {
     lastCallTimer && clearTimeout(lastCallTimer);
     lastCallTimer = setTimeout(() => {
       startTime = void 0;
+      lastCallTimer = void 0;
       if (trailing) {
         func.apply(this, args);
       }
     }, wait);
+  }
+
+  trigger.cancel = function() {
+    lastCallTimer && clearTimeout(lastCallTimer);
+    startTime = void 0;
+    lastCallTimer = void 0;
   };
+
+  return trigger;
 }
