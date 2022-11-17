@@ -26,7 +26,7 @@ describe('data.mjs', () => {
     expect(stringToObject('a=1&b=2')).toStrictEqual({a:'1',b:'2'});
     expect(stringToObject('a=&b=2')).toStrictEqual({a:'',b:'2'});
     expect(stringToObject('a=undefined&b=2')).toStrictEqual({a:undefined,b:'2'});
-    expect(stringToObject('a=null&b=2')).toStrictEqual({a:undefined,b:'2'});
+    expect(stringToObject('a=null&b=2')).toStrictEqual({a:null,b:'2'});
     expect(stringToObject('a=true&b=2')).toStrictEqual({a:true,b:'2'});
     expect(stringToObject('a=false&b=2')).toStrictEqual({a:false,b:'2'});
     expect(stringToObject('a:1;b:2',';',':')).toStrictEqual({a:'1',b:'2'});
@@ -40,6 +40,7 @@ describe('data.mjs', () => {
     expect(objectToString({})).toStrictEqual('');
     expect(objectToString({a:1})).toStrictEqual('a=1');
     expect(objectToString({a:1,b:2})).toStrictEqual('a=1&b=2');
+    expect(objectToString({a:undefined,b:true})).toStrictEqual('a=undefined&b=true');
     expect(objectToString({a:null,b:true})).toStrictEqual('a=null&b=true');
   });
 

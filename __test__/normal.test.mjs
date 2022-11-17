@@ -1,10 +1,12 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import {
   typeOf,
   addZero,
   hyphenate,
   camelize,
   camelizeKeys,
+  random,
+  sleep,
 } from '../src/normal.mjs';
 
 describe('normal.mjs', () => {
@@ -52,5 +54,30 @@ describe('normal.mjs', () => {
   test('camelizeKeys', () => {
     expect(camelizeKeys()).toStrictEqual({});
     expect(camelizeKeys({'font-size':'10px'})).toStrictEqual({fontSize:'10px'});
+  });
+
+  test('random', () => {
+    const checkData1 = new Array(100).fill().map(() => random(5, 8));
+    const check1 = data => data.every(n => n > 5 && n < 8);
+    const checkData2 = new Array(100).fill().map(() => random(2));
+    const check2 = data => data.every(n => n > 0 && n < 2);
+    const checkData3 = new Array(100).fill().map(() => random(1, -2));
+    const check3 = data => data.every(n => n > -2 && n < 1);
+
+    expect(checkData1).toSatisfy(check1);
+    expect(checkData2).toSatisfy(check2);
+    expect(checkData3).toSatisfy(check3);
+  });
+
+  test('sleep', () => {
+    vi.useFakeTimers();
+    const callback = vi.fn();
+    const promise = sleep(1000);
+    setTimeout(() => {
+      expect(callback).not.toBeCalled();
+    }, 500);
+    vi.runAllTimers();
+    expect(promise.then(callback)).resolves.toBeUndefined();
+    vi.useRealTimers();
   });
 });

@@ -57,3 +57,23 @@ export const camelizeKeys = obj => {
   });
   return result;
 };
+
+
+/**
+ * 获取某范围内的随机数
+ * @param {Number} n 范围值1
+ * @param {Number} m 范围值2
+ * @returns number
+ */
+export const random = (n, m = 0) => {
+  const min = Math.min(n, m);
+  const max = Math.max(n, m);
+  return min + Math.random() * (max - min);
+};
+
+/**
+ * 延迟
+ * @param {Number} wait 延时时长
+ * @returns promise<void 0>
+ */
+export const sleep = wait => new Promise(resolve => setTimeout(resolve, wait));

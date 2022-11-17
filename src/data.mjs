@@ -1,5 +1,3 @@
-import { typeOf } from './normal.mjs';
-
 /**
  * 根据循环方法将数组拆为两份，符合的放前面
  * @param {*} array 数组
@@ -8,7 +6,7 @@ import { typeOf } from './normal.mjs';
  */
 export const divideArray = (array, callback) => {
   const template = [[], []];
-  if (!callback || typeOf(callback) !== 'function') return template;
+  if (!callback || typeof callback !== 'function') return template;
   return array.reduce((res, item, index) => {
     const match = callback(item, index);
     match ? res[0].push(item) : res[1].push(item);
@@ -34,14 +32,15 @@ export const stringToObject = (str, divide = '&', concat = '=') => {
     if (!item) return;
 
     const temp = item.split(concat);
-    const key = decodeURIComponent(temp.shift().trim());
-    let value = decodeURIComponent(temp.join(concat).trim());
+    const key = decodeURIComponent(temp.shift());
+    let value = decodeURIComponent(temp.join(concat));
 
     if (!key) return;
 
-    if (['null', 'undefined'].includes(value)) value = undefined;
-    if (value === 'true') value = true;
-    if (value === 'false') value = false;
+    if (value === 'null') value = null;
+    else if (value === 'undefined') value = undefined;
+    else if (value === 'true') value = true;
+    else if (value === 'false') value = false;
 
     result[key] = value;
   });
@@ -82,7 +81,7 @@ export const addDataToUrl = (url, data) => {
 
   if (typeof data === 'string') {
     return result + concat + data;
-  } else if (typeOf(data) === 'object') {
+  } else if (typeof data === 'object') {
     return result + concat + objectToString(data);
   }
   return result;
@@ -90,6 +89,7 @@ export const addDataToUrl = (url, data) => {
 
 /**
  * 将 json 中某个 key 转为 key map，通常用于后续查重
+ * 例如： [{id:'a',value:1}] 转变为 { a:1 }
  * @param {Array} array json
  * @param {String} key json 中的 key
  * @returns object
