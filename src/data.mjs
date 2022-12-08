@@ -103,3 +103,20 @@ export const jsonToObject = (json, keyName = '', valueName = '') => {
   });
   return result;
 };
+
+/**
+ * 将数组拆分为多个
+ * @param {Array} array 源数据
+ * @param {Array} filterMethods 筛选函数
+ * @returns array
+ */
+export const filterControlItems = (array, filterMethods) => {
+  const length = filterMethods.length + 1;
+  const result = new Array(length).fill().map(() => []);
+  array.forEach((item, ...args) => {
+    const filterIndex = filterMethods.findIndex(method => method(item, ...args));
+    if (filterIndex > -1) result[filterIndex].push(item);
+    else result[length - 1].push(item);
+  });
+  return result;
+};

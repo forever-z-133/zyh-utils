@@ -5,6 +5,7 @@ import {
   objectToString,
   addDataToUrl,
   jsonToObject,
+  filterControlItems,
 } from '../src/data.mjs';
 
 
@@ -59,6 +60,12 @@ describe('data.mjs', () => {
     expect(jsonToObject(['a','b'])).toStrictEqual({a:0,b:1});
     expect(jsonToObject([{name:'a'},{name:'b'}], 'name')).toStrictEqual({a:{name:'a'},b:{name:'b'}});
     expect(jsonToObject([{name:'a',value:1},{name:'b',value:2}], 'name', 'value')).toStrictEqual({a:1,b:2});
+  });
+
+  test('filterControlItems', () => {
+    const [small, rest] = filterControlItems([1,5,2,4,3], [num => num < 3]);
+    expect(small).toStrictEqual([1,2]);
+    expect(rest).toStrictEqual([5,4,3]);
   });
 });
 
