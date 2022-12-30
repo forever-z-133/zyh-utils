@@ -1,17 +1,18 @@
 /**
- * 根据循环方法将数组拆为两份，符合的放前面
- * @param {*} array 数组
- * @param {*} callback 循环方法
+ * 将数组拆分为多个，符合的放前面
+ * @param {Array} array 源数据
+ * @param {Array} filterMethods 筛选函数
  * @returns array
  */
-export const divideArray = (array, callback) => {
-  const template = [[], []];
-  if (!callback || typeof callback !== 'function') return template;
-  return array.reduce((res, item, index) => {
-    const match = callback(item, index);
-    match ? res[0].push(item) : res[1].push(item);
-    return res;
-  }, template);
+export const divideArray = (array, filterMethods = []) => {
+  const length = filterMethods.length + 1;
+  const result = new Array(length).fill().map(() => []);
+  Array.from(array).forEach((item, ...args) => {
+    const filterIndex = filterMethods.findIndex(method => method(item, ...args));
+    if (filterIndex > -1) result[filterIndex].push(item);
+    else result[length - 1].push(item);
+  });
+  return result;
 };
 
 /**
@@ -107,23 +108,6 @@ export const jsonToObject = (json, keyName = '', valueName = '') => {
     const name = keyName ? item[keyName] : item;
     const value = keyName ? (valueName ? item[valueName] : item) : index;
     result[name] = value;
-  });
-  return result;
-};
-
-/**
- * 将数组拆分为多个
- * @param {Array} array 源数据
- * @param {Array} filterMethods 筛选函数
- * @returns array
- */
-export const filterControlItems = (array, filterMethods = []) => {
-  const length = filterMethods.length + 1;
-  const result = new Array(length).fill().map(() => []);
-  Array.from(array).forEach((item, ...args) => {
-    const filterIndex = filterMethods.findIndex(method => method(item, ...args));
-    if (filterIndex > -1) result[filterIndex].push(item);
-    else result[length - 1].push(item);
   });
   return result;
 };

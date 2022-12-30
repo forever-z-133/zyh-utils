@@ -5,20 +5,18 @@ import {
   objectToString,
   addDataToUrl,
   jsonToObject,
-  filterControlItems,
 } from '../src/data.mjs';
 
 
 describe('data.mjs', () => {
   test('divideArray', () => {
-    const array = [1, 2, 3, 4, 5];
-    const result1 = [1, 2];
-    const result2 = [3, 4, 5];
-    const forEachCallback = item => item < 3;
-    const [r1, r2] = divideArray(array, forEachCallback);
-    expect(divideArray(array)).toStrictEqual([[], []]);
-    expect(r1).toStrictEqual(result1);
-    expect(r2).toStrictEqual(result2);
+    const [small, rest] = divideArray([1,5,2,4,3], [num => num < 3]);
+    expect(small).toStrictEqual([1,2]);
+    expect(rest).toStrictEqual([5,4,3]);
+    const [a, b, c] = divideArray([1,2,3,1,1,3], [num => num === 2, num => num === 3]);
+    expect(a).toStrictEqual([2]);
+    expect(b).toStrictEqual([3,3]);
+    expect(c).toStrictEqual([1,1,1]);
   });
 
   test('stringToObject', () => {
@@ -63,16 +61,6 @@ describe('data.mjs', () => {
     expect(jsonToObject(['a','b'])).toStrictEqual({a:0,b:1});
     expect(jsonToObject([{name:'a'},{name:'b'}], 'name')).toStrictEqual({a:{name:'a'},b:{name:'b'}});
     expect(jsonToObject([{name:'a',value:1},{name:'b',value:2}], 'name', 'value')).toStrictEqual({a:1,b:2});
-  });
-
-  test('filterControlItems', () => {
-    const [small, rest] = filterControlItems([1,5,2,4,3], [num => num < 3]);
-    expect(small).toStrictEqual([1,2]);
-    expect(rest).toStrictEqual([5,4,3]);
-    const [a, b, c] = filterControlItems([1,2,3,1,1,3], [num => num === 2, num => num === 3]);
-    expect(a).toStrictEqual([2]);
-    expect(b).toStrictEqual([3,3]);
-    expect(c).toStrictEqual([1,1,1]);
   });
 });
 
