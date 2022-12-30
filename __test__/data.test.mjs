@@ -55,6 +55,7 @@ describe('data.mjs', () => {
     expect(addDataToUrl('index.html', { a: 1 })).toStrictEqual('index.html?a=1');
     expect(addDataToUrl('index.html?x=0', 'a=1')).toStrictEqual('index.html?x=0&a=1');
     expect(addDataToUrl('index.html?x=0', { a: 1 })).toStrictEqual('index.html?x=0&a=1');
+    expect(addDataToUrl('index.html?x=0#t', 'a=1')).toStrictEqual('index.html?x=0&a=1#t');
     expect(addDataToUrl('index.html', 1000)).toStrictEqual('index.html');
   });
 

@@ -74,17 +74,24 @@ export const objectToString = (obj, divide = '&', concat = '=') => {
  */
 const urlSearchUselessReg = /[?#]\B/g; // 单独的无用的 ? 和 # 符
 export const addDataToUrl = (url, data) => {
-  const result = url.replace(urlSearchUselessReg, '');
+  let result = url.replace(urlSearchUselessReg, '');
   if (!data) return result;
+
+  let hash = '';
+  const hashIndex = result.indexOf('#');
+  if (hashIndex > -1) {
+    hash = result.slice(hashIndex);
+    result = result.slice(0, hashIndex);
+  }
 
   const concat = result.includes('?') ? '&' : '?';
 
   if (typeof data === 'string') {
-    return result + concat + data;
+    return result + concat + data + hash;
   } else if (typeof data === 'object') {
-    return result + concat + objectToString(data);
+    return result + concat + objectToString(data) + hash;
   }
-  return result;
+  return result + hash;
 };
 
 /**
