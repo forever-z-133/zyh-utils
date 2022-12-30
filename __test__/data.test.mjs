@@ -41,6 +41,7 @@ describe('data.mjs', () => {
     expect(objectToString({})).toStrictEqual('');
     expect(objectToString({a:1})).toStrictEqual('a=1');
     expect(objectToString({a:1,b:2})).toStrictEqual('a=1&b=2');
+    expect(objectToString({a:1,b:2},';',':')).toStrictEqual('a:1;b:2');
     expect(objectToString({a:undefined,b:true})).toStrictEqual('a=undefined&b=true');
     expect(objectToString({a:null,b:true})).toStrictEqual('a=null&b=true');
   });
@@ -49,6 +50,7 @@ describe('data.mjs', () => {
     expect(addDataToUrl('index.html')).toStrictEqual('index.html');
     expect(addDataToUrl('index.html?')).toStrictEqual('index.html');
     expect(addDataToUrl('index.html#')).toStrictEqual('index.html');
+    expect(addDataToUrl('index.html?#')).toStrictEqual('index.html');
     expect(addDataToUrl('index.html', 'a=1')).toStrictEqual('index.html?a=1');
     expect(addDataToUrl('index.html', { a: 1 })).toStrictEqual('index.html?a=1');
     expect(addDataToUrl('index.html?x=0', 'a=1')).toStrictEqual('index.html?x=0&a=1');
@@ -66,6 +68,10 @@ describe('data.mjs', () => {
     const [small, rest] = filterControlItems([1,5,2,4,3], [num => num < 3]);
     expect(small).toStrictEqual([1,2]);
     expect(rest).toStrictEqual([5,4,3]);
+    const [a, b, c] = filterControlItems([1,2,3,1,1,3], [num => num === 2, num => num === 3]);
+    expect(a).toStrictEqual([2]);
+    expect(b).toStrictEqual([3,3]);
+    expect(c).toStrictEqual([1,1,1]);
   });
 });
 

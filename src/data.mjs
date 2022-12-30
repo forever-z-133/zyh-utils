@@ -72,9 +72,9 @@ export const objectToString = (obj, divide = '&', concat = '=') => {
  * @param {String|Object} data 参数
  * @returns string
  */
-const uselessUrlSearchReg = /[?#]\B/g; // 单独的无用的 ? 和 # 符
+const urlSearchUselessReg = /[?#]\B/g; // 单独的无用的 ? 和 # 符
 export const addDataToUrl = (url, data) => {
-  const result = url.replace(uselessUrlSearchReg, '');
+  const result = url.replace(urlSearchUselessReg, '');
   if (!data) return result;
 
   const concat = result.includes('?') ? '&' : '?';
@@ -110,10 +110,10 @@ export const jsonToObject = (json, keyName = '', valueName = '') => {
  * @param {Array} filterMethods 筛选函数
  * @returns array
  */
-export const filterControlItems = (array, filterMethods) => {
+export const filterControlItems = (array, filterMethods = []) => {
   const length = filterMethods.length + 1;
   const result = new Array(length).fill().map(() => []);
-  array.forEach((item, ...args) => {
+  Array.from(array).forEach((item, ...args) => {
     const filterIndex = filterMethods.findIndex(method => method(item, ...args));
     if (filterIndex > -1) result[filterIndex].push(item);
     else result[length - 1].push(item);
