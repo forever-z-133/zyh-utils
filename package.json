@@ -4,12 +4,10 @@
   "description": "用来存放一些经过单测的工具函数",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install",
     "test:dev": "vitest",
     "test": "vitest run --coverage",
-    "cz": "git cz",
-    "lint": "./node_modules/.bin/eslint --ext js,mjs ./",
-    "lint:fix": "./node_modules/.bin/eslint --ext js,mjs --fix ./"
+    "lint": "eslint --ext js,mjs ./",
+    "lint:fix": "eslint --ext js,mjs --fix ./"
   },
   "repository": {
     "type": "git",
@@ -23,11 +21,9 @@
   },
   "homepage": "https://github.com/forever-z-133/zyh-utils#readme",
   "devDependencies": {
-    "c8": "^7.12.0",
-    "commitizen": "^4.2.4",
-    "cz-customizable": "^6.3.0",
-    "eslint": "^8.16.0",
-    "husky": "^8.0.1",
-    "vitest": "^0.20.3"
+    "@antfu/eslint-config": "^2.8.3",
+    "@vitest/coverage-v8": "^1.4.0",
+    "eslint": "^8.57.0",
+    "vitest": "^1.4.0"
   }
 }

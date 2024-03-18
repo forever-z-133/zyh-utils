@@ -162,7 +162,6 @@ export const getPastDateString = (date, baseDate = new Date()) => {
   const now = date.getTime();
   const diff = (now - time) / 1000;
 
-  console.log(time, now, diff);
   if (diff < 0) return ''; // 未知时间
 
   if (diff < 60) {
